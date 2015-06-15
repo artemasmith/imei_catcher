@@ -14,13 +14,13 @@ class Scraper
     http.verify_mode = OpenSSL::SSL::VERIFY_NONE
     request = Net::HTTP::Post.new("/wcResults.do")
     request.add_field('Content-Type', 'application/x-www-form-urlencoded')
-    request.body = "sn=#{imei}&cn=&locale=&caller=&num=449061"
+    request.body = "sn=#{imei}&cn=&locale=&caller=&num=#{rand(6000)}"
     response = http.request(request)
 
-    status = 'Expired'
+    status = ''
+    status = 'Expired' if response.body.match("'Telephone Technical Support: Expired'")
     status = 'Active' if response.body.match("'Telephone Technical Support: Active'")
     end_period = ''
-    puts status
     if status == 'Active'
       date_index = response.body.index('Expiration Date:')
       end_period = response.body[date_index..date_index + 250]

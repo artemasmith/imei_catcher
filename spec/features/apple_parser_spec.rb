@@ -17,8 +17,12 @@ describe Scraper do
 
   describe 'wrong imei' do
 
-    it 'wrong imei' do
+    it 'incorrect imei' do
       expect{Scraper.get_support_period('019712')}.to raise_error
+    end
+
+    it 'wrong imei' do
+      expect(Scraper.get_support_period('000000000000000')).to eq(['', ''])
     end
 
   end
